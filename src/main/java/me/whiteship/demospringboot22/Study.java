@@ -1,8 +1,5 @@
 package me.whiteship.demospringboot22;
 
-import lombok.Builder;
-
-//@Builder
 public class Study {
 
     private String title;
@@ -10,7 +7,7 @@ public class Study {
     private StudyStatus status;
 
     public Study(String title, int maxNumberOfParticipant) {
-//        this.status = StudyStatus.DRAFT;
+        this.status = StudyStatus.DRAFT;
         this.title = title;
         this.maximumNumberOfParticipant = maxNumberOfParticipant;
     }
