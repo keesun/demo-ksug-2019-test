@@ -12,6 +12,9 @@ public class StudyBuilder {
     }
 
     public StudyBuilder maxNumberOfParticipant(int maxNumberOfParticipant) {
+        if (maxNumberOfParticipant < 0) {
+            throw new IllegalArgumentException("maxNumberOfParticipant can't be below zero");
+        }
         this.maxNumberOfParticipant = maxNumberOfParticipant;
         return this;
     }

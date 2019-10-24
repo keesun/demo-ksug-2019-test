@@ -24,5 +24,13 @@ public class StudyTests {
                 () -> assertEquals(10, study.getMaxNumberOfParticipant(), "MaxNumberOfParticipants are not equals"));
     }
 
+    @Test
+    @DisplayName("스터디 만들기 에러: 최대 참석자 수가 음수인 경우")
+    void createNewStudyError_as_MaxNumberOfParticipant_is_minus() {
+        assertThrows(IllegalArgumentException.class, () -> Study.builder()
+            .title("JUnit 5")
+            .maxNumberOfParticipant(-10)
+            .build());
+    }
 
 }
