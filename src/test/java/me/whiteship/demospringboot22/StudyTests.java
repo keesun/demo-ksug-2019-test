@@ -18,8 +18,9 @@ public class StudyTests {
 
         assertNotNull(study);
 
-        assertEquals(study.getStatus(), StudyStatus.DRAFT);
-        assertEquals(study.getTitle(), "JUnit 5");
-        assertEquals(study.getMaxNumberOfParticipant(), 9);
+        assertAll(
+                () -> assertEquals(StudyStatus.DRAFT, study.getStatus(), "New study's status should be DRAFT"),
+                () -> assertEquals("JUnit 5", study.getTitle(), "Titles are not equals"),
+                () -> assertEquals(9, study.getMaxNumberOfParticipant(), "MaxNumberOfParticipants are not equals"));
     }
 }
