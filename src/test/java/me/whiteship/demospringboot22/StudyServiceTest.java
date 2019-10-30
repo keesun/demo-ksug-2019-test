@@ -9,6 +9,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 class StudyServiceTest {
@@ -33,7 +34,7 @@ class StudyServiceTest {
         assertNotNull(mockitoStudy.getCreated());
 
         newStudy.getStudyTags().forEach((tag) -> {
-            verify(tagService).increaseCount(tag);
+            then(tagService).should().increaseCount(tag);
         });
     }
 
