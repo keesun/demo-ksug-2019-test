@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 class StudyServiceTest {
 
@@ -25,12 +25,16 @@ class StudyServiceTest {
                 .addTag(new StudyTag("Java"))
                 .build();
 
-        when(studyRepository.save(newStudy)).thenReturn(newStudy);
+        given(studyRepository.save(newStudy)).willReturn(newStudy);
 
         Study mockitoStudy = studyService.registerNewStudy(newStudy);
 
         assertEquals("Mockito", mockitoStudy.getTitle());
         assertNotNull(mockitoStudy.getCreated());
+
+        newStudy.getStudyTags().forEach((tag) -> {
+            verify(tagService).increaseCount(tag);
+        });
     }
 
 }
