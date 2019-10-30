@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter @Setter
-public class Tag {
+public class StudyTag {
 
     @Id @GeneratedValue
     Integer id;
@@ -17,6 +17,10 @@ public class Tag {
     String name;
 
     Integer count;
+
+    public StudyTag(String name) {
+        this.name = name;
+    }
 
     public void increaseCount() {
         count++;

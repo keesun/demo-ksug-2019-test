@@ -1,10 +1,15 @@
 package me.whiteship.demospringboot22;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class StudyBuilder {
 
     private String title;
 
     private int maxNumberOfParticipant;
+
+    private Set<StudyTag> studyTags = new HashSet<>();
 
     public StudyBuilder title(String title) {
         this.title = title;
@@ -19,7 +24,12 @@ public class StudyBuilder {
         return this;
     }
 
+    public StudyBuilder addTag(StudyTag studyTag) {
+        this.studyTags.add(studyTag);
+        return this;
+    }
+
     public Study build() {
-        return new Study(this.title, this.maxNumberOfParticipant);
+        return new Study(this.title, this.maxNumberOfParticipant, this.studyTags);
     }
 }
