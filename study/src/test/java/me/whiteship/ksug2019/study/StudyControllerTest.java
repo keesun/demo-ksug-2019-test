@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -21,13 +23,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 class StudyControllerTest {
 
     @Autowired MockMvc mockMvc;
 
     @MockBean MemberServiceClient memberServiceClient;
-    @MockBean StudyKeywordRepository repository;
 
     @Test
     @DisplayName("관심 키워드 추가하기")
@@ -37,8 +40,6 @@ class StudyControllerTest {
                 .memberId(2)
                 .keyword("Spring")
                 .build();
-
-        given(repository.save(any())).willReturn(studyKeyword);
 
         mockMvc.perform(get("/study/keyword/{memberId}/{keyword}", studyKeyword.getMemberId(), studyKeyword.getKeyword()))
                 .andDo(print())
