@@ -3,21 +3,21 @@ package me.whiteship.ksug2019.study;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,11 +26,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@Testcontainers
+@ContextConfiguration(initializers = StudyControllerTest.Initializer.class)
 class StudyControllerTest {
 
     @Autowired MockMvc mockMvc;
 
     @MockBean MemberServiceClient memberServiceClient;
+
+    @Container
+    private static final PostgreSQLContainer postgreSQLContainer = (PostgreSQLContainer) new PostgreSQLContainer()
+            .withDatabaseName("study-test")
+            .withUsername("ksug2019")
+            .withPassword("whiteship");
 
     @Test
     @DisplayName("관심 키워드 추가하기")
@@ -47,6 +55,17 @@ class StudyControllerTest {
                 .andExpect(jsonPath("$.id", Matchers.notNullValue()))
                 .andExpect(jsonPath("$.keyword", Matchers.equalTo(studyKeyword.getKeyword())))
                 .andExpect(jsonPath("$.memberId", Matchers.equalTo(studyKeyword.getMemberId())));
+    }
+
+    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+                "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+                "spring.datasource.password=" + postgreSQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 
 }
