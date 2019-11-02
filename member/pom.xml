@@ -28,4 +28,24 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>1.7.0</version>
+				<configuration>
+					<to>
+						<image>study-member-be</image>
+					</to>
+					<container>
+						<ports>
+							<port>18081</port>
+						</ports>
+					</container>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
