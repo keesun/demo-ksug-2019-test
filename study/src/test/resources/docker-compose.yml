@@ -3,16 +3,12 @@ version: "3"
 services:
   member-db:
     image: postgres
-    ports:
-      - 5432
     environment:
       POSTGRES_PASSWORD: keesun
       POSTGRES_USER: ksug2019
       POSTGRES_DB: member
   member-be:
     image: study-member-be
-    ports:
-      - 28081:18081
     depends_on:
       - member-db
     links:
