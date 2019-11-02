@@ -6,7 +6,6 @@
 		<groupId>me.whiteship</groupId>
 		<artifactId>demo-ksug-2019-keesun</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>me.whiteship.ksug2019</groupId>
 	<artifactId>member</artifactId>
