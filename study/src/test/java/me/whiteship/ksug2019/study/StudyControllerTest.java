@@ -45,16 +45,16 @@ class StudyControllerTest {
     public void addKeyword() throws Exception {
         StudyKeyword studyKeyword = StudyKeyword.builder()
                 .id(10L)
-                .memberId(2)
+                .username("keesun")
                 .keyword("Spring")
                 .build();
 
-        mockMvc.perform(get("/study/keyword/{memberId}/{keyword}", studyKeyword.getMemberId(), studyKeyword.getKeyword()))
+        mockMvc.perform(get("/study/keyword/{username}/{keyword}", studyKeyword.getUsername(), studyKeyword.getKeyword()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Matchers.notNullValue()))
                 .andExpect(jsonPath("$.keyword", Matchers.equalTo(studyKeyword.getKeyword())))
-                .andExpect(jsonPath("$.memberId", Matchers.equalTo(studyKeyword.getMemberId())));
+                .andExpect(jsonPath("$.username", Matchers.equalTo(studyKeyword.getUsername())));
     }
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {

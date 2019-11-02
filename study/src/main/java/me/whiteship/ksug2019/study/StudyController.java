@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,11 +17,17 @@ public class StudyController {
     private final StudyKeywordRepository repository;
     private final MemberServiceClient memberServiceClient;
 
-    @GetMapping("/study/keyword/{memberId}/{keyword}")
-    public StudyKeyword add(@PathVariable Integer memberId, @PathVariable String keyword) {
-        memberServiceClient.validate(memberId);
-        StudyKeyword studyKeyword = StudyKeyword.builder().memberId(memberId).keyword(keyword).build();
+    @GetMapping("/study/keyword/{username}/{keyword}")
+    public StudyKeyword add(@PathVariable String username, @PathVariable String keyword) {
+        memberServiceClient.validate(username);
+        StudyKeyword studyKeyword = StudyKeyword.builder().username(username).keyword(keyword).build();
         Optional<StudyKeyword> existingOne = repository.findOne(Example.of(studyKeyword, ExampleMatcher.matchingAll().withIgnoreCase()));
         return existingOne.orElseGet(() -> repository.save(studyKeyword));
+    }
+
+    @GetMapping("/study/view/data")
+    public List<TagCloudData> tagCloudData() {
+        return repository.getTagCloudData();
+
     }
 }

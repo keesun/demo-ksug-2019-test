@@ -19,7 +19,7 @@ public class MemberController {
 
     @GetMapping("/member/{username}")
     public Member byUsername(@PathVariable String username) {
-        return memberRepository.findByUsername(username);
+        return memberRepository.findByUsername(username).orElseThrow();
     }
 
     @GetMapping("/member/id/{id}")

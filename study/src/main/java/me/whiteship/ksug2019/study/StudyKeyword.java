@@ -16,6 +16,6 @@ public class StudyKeyword {
 
     private String keyword;
 
-    private Integer memberId;
+    private String username;
 
 }

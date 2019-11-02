@@ -17,10 +17,10 @@ public class MemberServiceClient {
     }
 
 
-    public void validate(Integer memberId) {
-        ResponseEntity<String> response = restTemplate.getForEntity("/id/{memberId}", String.class, memberId);
+    public void validate(String username) {
+        ResponseEntity<String> response = restTemplate.getForEntity("/{username}", String.class, username);
         if (response.getStatusCode() != HttpStatus.OK) {
-            throw new IllegalArgumentException("wrong member id '" + memberId + "'");
+            throw new IllegalArgumentException("wrong member username '" + username + "'");
         }
     }
 }
