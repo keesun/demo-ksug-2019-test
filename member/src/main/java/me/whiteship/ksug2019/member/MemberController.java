@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
@@ -25,6 +27,11 @@ public class MemberController {
     @GetMapping("/member/id/{id}")
     public Member byId(@PathVariable Long id) {
         return memberRepository.findById(id).orElseThrow();
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        memberRepository.save(Member.builder().username("test").build());
     }
 
 }

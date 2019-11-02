@@ -2,7 +2,7 @@
 ./mvnw clean package -Dmaven.test.skip=true
 
 # 도커 이미지 빌드
-./mvnw compile jib:dockerBuild
+./mvnw clean compile jib:dockerBuild -P docker
 
 # 도커 스크립트
 

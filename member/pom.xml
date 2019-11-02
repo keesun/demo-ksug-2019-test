@@ -48,4 +48,22 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>default</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<activatedProperties>docker</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
+
 </project>
