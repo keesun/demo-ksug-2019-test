@@ -34,12 +34,12 @@
         chart.draw();
 
         chart.listen("pointClick", function(e){
-            var url = "//localhost:18080/study/keyword/" + e.point.get("x");
+            var url = "/study/keyword/" + e.point.get("x");
             window.open(url, "_blank");
         });
 
         setInterval(function() {
-            fetch('http://localhost:18080/study/view/data')
+            fetch('/study/view/data')
                 .then(res => res.json())
                 .then(matchData => {chart.data(matchData)});
         }, 500);
