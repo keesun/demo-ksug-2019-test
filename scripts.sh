@@ -18,3 +18,7 @@ docker run -p 11111:5432 --name test-study-keyword -e POSTGRES_USER=ksug2019 -e 
 ## 테스트용 멤버 BE 서버
 docker run -itd --network=my-net -p 28081:18081 --name study-member-be -i study-member-be
 
+## study-keyword DB 초기화
+docker exec -it study-keyword bash
+psql -U ksug2019 -d study
+delete from study_keyword;
